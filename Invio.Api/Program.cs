@@ -3,6 +3,7 @@ using Invio.Infrastructure.Configuracoes;
 using Invio.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Invio.Application.Configuracoes;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +26,9 @@ builder.Services.AddIdentity<Usuario, IdentityRole<Guid>>(options =>
             .AddEntityFrameworkStores<InvioDbContext>()
             .AddDefaultTokenProviders();
 
-builder.Services.RegisterRepository();
+builder.Services
+    .RegisterRepository()
+    .RegisterApplication(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
