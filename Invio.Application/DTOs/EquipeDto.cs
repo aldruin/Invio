@@ -1,4 +1,5 @@
-﻿using Invio.Domain.Enums;
+﻿using Invio.Domain.Entities;
+using Invio.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Invio.Application.DTOs
         public Guid? Id { get; set; }
         public string? Nome { get; set; }
         public EquipeCategoria? Categoria { get; set; }
-        public List<ItemCategoria> Items { get; set; }
+        public List<Item> Items { get; set; }
 
         public EquipeDto() { }
     }

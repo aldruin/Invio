@@ -21,7 +21,7 @@ namespace Invio.Infrastructure.Repositories
             Query = Context.Set<T>();
         }
 
-        public async Task<T> ObterPorIdAsync(Guid id)
+        public async Task<T> ObterPorIdAsync(Guid? id)
         {
             return await Query.FindAsync(id);
         }

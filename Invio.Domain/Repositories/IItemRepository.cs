@@ -9,5 +9,6 @@ namespace Invio.Domain.Repositories
 {
     public interface IItemRepository : IRepository<Item>
     {
+        Task<List<Item>> ObterItemsPorEquipeIdAsync(Guid equipeId);
     }
 }

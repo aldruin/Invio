@@ -12,7 +12,7 @@ namespace Invio.Application.DTOs
         public string? Nome { get; set; }
         public int? Quantidade { get; set; }
         public string? Descricao { get; set; }
-        public string? Classe { get; set; }
+        public string? Categoria { get; set; }
         public Guid? EquipeId { get; set; }
         public DateTime? DataFornecimento { get; set; }
         public DateTime? DataTermino { get; set; }
