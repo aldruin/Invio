@@ -1,5 +1,6 @@
 ﻿using Invio.Application.DTOs;
 using Invio.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Invio.Api.Controllers
@@ -32,6 +33,7 @@ namespace Invio.Api.Controllers
         }
 
         [HttpPut("atualizar")]
+        [Authorize]
         public async Task<IActionResult> AtualizarUsuario([FromBody] UsuarioDto dto)
         {
             var usuarioAtual = HttpContext.User;
@@ -47,6 +49,7 @@ namespace Invio.Api.Controllers
         }
 
         [HttpDelete("excluir")]
+        [Authorize]
         public async Task<IActionResult> ExcluirUsuario()
         {
             var usuarioAtual = HttpContext.User;

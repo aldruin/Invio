@@ -15,6 +15,7 @@ namespace Invio.Infrastructure.Data
         public InvioDbContext( DbContextOptions <InvioDbContext> options) : base(options) { }
 
         public DbSet<Equipe> Equipes { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Item> Items { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

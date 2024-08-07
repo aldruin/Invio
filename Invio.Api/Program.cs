@@ -29,7 +29,7 @@ builder.Services.AddIdentity<Usuario, IdentityRole<Guid>>(options =>
 
 builder.Services
     .RegisterRepository()
-    .RegisterApplication();
+    .RegisterApplication(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -43,6 +43,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
