@@ -17,7 +17,7 @@ namespace Invio.Application.Services
         private readonly UserManager<Usuario> _userManager;
         private readonly INotificationService _notificationService;
 
-        public UsuarioService(UserManager<Usuario> usuarioManager, NotificationService notificationService)
+        public UsuarioService(UserManager<Usuario> usuarioManager, INotificationService notificationService)
         {
             _userManager = usuarioManager;
             _notificationService = notificationService;
@@ -36,7 +36,8 @@ namespace Invio.Application.Services
             var usuario = new Usuario()
             {
                 Email = dto.Email,
-                Nome = dto.Nome.Trim().ToLower()
+                Nome = dto.Nome.Trim().ToUpper(),
+                UserName = dto.Email
             };
 
             var resultado = await _userManager.CreateAsync(usuario, dto.Password);
@@ -48,6 +49,7 @@ namespace Invio.Application.Services
                     Id = usuario.Id,
                     Nome = usuario.Nome,
                     Email = usuario.Email,
+                    Password = ""
                 };
             }
 
@@ -73,7 +75,8 @@ namespace Invio.Application.Services
                 {
                     Id = usuarioLogado.Id,
                     Nome = usuarioLogado.Nome,
-                    Email = usuarioLogado.Email
+                    Email = usuarioLogado.Email,
+                    Password = ""
                 };
             }
 
@@ -107,7 +110,8 @@ namespace Invio.Application.Services
                 {
                     Id = usuarioLogado.Id,
                     Nome = usuarioLogado.Nome,
-                    Email = usuarioLogado.Email
+                    Email = usuarioLogado.Email,
+                    Password = ""
                 };
             }
             foreach (var error in result.Errors)
