@@ -45,6 +45,7 @@ namespace Invio.Application.Services
                 _notificationService.AddNotification("EquipeCriada", "Equipe criada com sucesso");
                 return new EquipeDto()
                 {
+                    Id = equipe.Id,
                     Nome = equipe.Nome,
                     Categoria = equipe.Categoria
                 };
@@ -72,6 +73,7 @@ namespace Invio.Application.Services
                 _notificationService.AddNotification("EquipeExcluida", "A equipe foi excluída com sucesso.");
                 return new EquipeDto()
                 {
+                    Id = equipe.Id,
                     Nome = equipe.Nome,
                     Categoria = equipe.Categoria
                 };
@@ -163,6 +165,7 @@ namespace Invio.Application.Services
                 _notificationService.AddNotification("EquipeAtualizada", "Equipe atualizada com sucesso");
                 return new EquipeDto()
                 {
+                    Id = equipe.Id,
                     Nome = equipe.Nome,
                     Categoria = equipe.Categoria,
                     Items = equipe.Items

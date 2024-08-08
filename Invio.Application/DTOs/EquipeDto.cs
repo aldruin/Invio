@@ -13,7 +13,7 @@ namespace Invio.Application.DTOs
         public Guid? Id { get; set; }
         public string? Nome { get; set; }
         public EquipeCategoria? Categoria { get; set; }
-        public List<Item> Items { get; set; }
+        public List<Item>? Items { get; set; }
 
         public EquipeDto() { }
     }

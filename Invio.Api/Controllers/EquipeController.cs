@@ -70,8 +70,7 @@ namespace Invio.Api.Controllers
 
             if (equipes != null)
             {
-                var resposta = new { equipes, notificacoes };
-                return Ok(resposta);
+                return Ok(equipes);
             }
             return BadRequest(notificacoes);
         }

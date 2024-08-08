@@ -44,13 +44,20 @@ namespace Invio.Application.Services
                     return null;
                 }
 
-                item.Nome = dto.Nome;
-                item.Quantidade = dto.Quantidade;
-                item.Descricao = dto.Descricao;
-                item.Categoria = Enum.TryParse<ItemCategoria>(dto.Categoria, out var itemClass) ? itemClass : (ItemCategoria?)null;
-                item.EquipeId = dto.EquipeId;
-                item.DataFornecimento = dto.DataFornecimento;
-                item.DataTermino = dto.DataTermino;
+                if (dto.Nome != null)
+                    item.Nome = dto.Nome;
+                if (dto.Quantidade.HasValue)
+                    item.Quantidade = dto.Quantidade.Value;
+                if (dto.Descricao != null)
+                    item.Descricao = dto.Descricao;
+                if (dto.Categoria != null && Enum.TryParse<ItemCategoria>(dto.Categoria, out var itemClass))
+                    item.Categoria = itemClass;
+                if (dto.EquipeId.HasValue)
+                    item.EquipeId = dto.EquipeId.Value;
+                if (dto.DataFornecimento.HasValue)
+                    item.DataFornecimento = dto.DataFornecimento.Value;
+                if (dto.DataTermino.HasValue)
+                    item.DataTermino = dto.DataTermino.Value;
 
                 await _itemRepository.AtualizarAsync(item);
 
@@ -93,8 +100,7 @@ namespace Invio.Application.Services
                     Descricao = dto.Descricao,
                     Categoria = Enum.TryParse<ItemCategoria>(dto.Categoria, out var itemCategoria) ? itemCategoria : (ItemCategoria?)null,
                     EquipeId = dto.EquipeId,
-                    DataFornecimento = dto.DataFornecimento,
-                    DataTermino = dto.DataTermino
+                    DataFornecimento = dto.DataFornecimento
                 };
 
                 await _itemRepository.AdicionarAsync(item);
