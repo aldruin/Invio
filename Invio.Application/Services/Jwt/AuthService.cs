@@ -14,23 +14,42 @@ namespace Invio.Application.Services.Jwt
     public class AuthService : IAuthService
     {
         private readonly UserManager<Usuario> _usuarioManager;
+        private readonly SignInManager<Usuario> _signInManager;
         private readonly IJwtService _jwtService;
 
-        public AuthService(UserManager<Usuario> usuarioManager, IJwtService jwtService)
+        public AuthService(UserManager<Usuario> usuarioManager, SignInManager<Usuario> signInManager, IJwtService jwtService)
         {
             _usuarioManager = usuarioManager;
+            _signInManager = signInManager;
             _jwtService = jwtService;
         }
 
         public async Task<UserResponse> LoginAsync(LoginRequest request)
         {
             var user = await _usuarioManager.FindByEmailAsync(request.Email);
-            if (user == null || !await _usuarioManager.CheckPasswordAsync(user, request.Password))
+            if (user == null)
+            {
                 return new UserResponse
                 {
-                    ErrorMessage = "Email ou senha inválidos."
+                    ErrorMessage = "Email de usuário inválido."
                 };
-            var jwtToken =  _jwtService.GenerateToken(new JwtDto(user.Id, user.Email));
+            }
+
+            if (user.EmailConfirmed == false) return new UserResponse
+            {
+                ErrorMessage = "E-mail de usuário não confirmado."
+            };
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+            if (!result.Succeeded) 
+            {
+                return new UserResponse
+                {
+                    ErrorMessage = "Senha inválida."
+                };
+            }
+
+            var jwtToken = _jwtService.GenerateToken(new JwtDto(user.Id, user.Email));
 
             return new UserResponse
             {
