@@ -32,20 +32,6 @@ builder.Services.AddIdentityCore<Usuario>(options =>
     .AddUserManager<UserManager<Usuario>>()
     .AddDefaultTokenProviders();
 
-
-//builder.Services.AddIdentity<Usuario, IdentityRole<Guid>>(options =>
-//{
-//    options.SignIn.RequireConfirmedAccount = false;
-//    options.User.RequireUniqueEmail = true;
-//    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-//    options.User.RequireUniqueEmail = true;
-//    options.Password.RequireUppercase = true;
-//    options.Password.RequireNonAlphanumeric = true;
-//    options.Password.RequiredLength = 6;
-//})
-//            .AddEntityFrameworkStores<InvioDbContext>()
-//            .AddDefaultTokenProviders();
-
 builder.Services
     .RegisterRepository()
     .RegisterApplication(builder.Configuration);
