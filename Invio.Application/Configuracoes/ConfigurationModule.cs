@@ -30,6 +30,15 @@ namespace Invio.Application.Configuracoes
 
             services.AddHttpClient();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder
+                        .WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+            });
+
             services.AddControllers();
 
             services.AddAuthentication(x =>

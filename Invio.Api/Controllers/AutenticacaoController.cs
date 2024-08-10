@@ -22,7 +22,7 @@ namespace Invio.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromQuery] LoginRequest loginRequest)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
             try
             {
