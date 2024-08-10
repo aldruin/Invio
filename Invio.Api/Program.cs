@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Invio.Application.Configuracoes;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -14,18 +15,36 @@ builder.Services.AddDbContext<InvioDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddIdentity<Usuario, IdentityRole<Guid>>(options =>
+builder.Services.AddIdentityCore<Usuario>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = false;
-    options.User.RequireUniqueEmail = true;
-    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = false;
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequiredLength = 6;
+
+    options.SignIn.RequireConfirmedEmail = true;
 })
-            .AddEntityFrameworkStores<InvioDbContext>()
-            .AddDefaultTokenProviders();
+    .AddRoles<IdentityRole>()
+    .AddRoleManager<RoleManager<IdentityRole>>()
+    .AddEntityFrameworkStores<InvioDbContext>()
+    .AddSignInManager<SignInManager<Usuario>>()
+    .AddUserManager<UserManager<Usuario>>()
+    .AddDefaultTokenProviders();
+
+
+//builder.Services.AddIdentity<Usuario, IdentityRole<Guid>>(options =>
+//{
+//    options.SignIn.RequireConfirmedAccount = false;
+//    options.User.RequireUniqueEmail = true;
+//    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+//    options.User.RequireUniqueEmail = true;
+//    options.Password.RequireUppercase = true;
+//    options.Password.RequireNonAlphanumeric = true;
+//    options.Password.RequiredLength = 6;
+//})
+//            .AddEntityFrameworkStores<InvioDbContext>()
+//            .AddDefaultTokenProviders();
 
 builder.Services
     .RegisterRepository()

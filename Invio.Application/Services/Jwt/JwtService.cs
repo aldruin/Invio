@@ -1,5 +1,6 @@
 ﻿using Invio.Application.DTOs.JwtDTOs;
 using Invio.Application.Interfaces.Jwt;
+using Invio.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,12 +16,13 @@ namespace Invio.Application.Services.Jwt
     public sealed class JwtService : IJwtService
     {
         private readonly IConfiguration _configuration;
+
         public JwtService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public async Task<string> GenerateToken(JwtDto jwtDto)
+        public string GenerateToken(JwtDto jwtDto)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -29,33 +31,36 @@ namespace Invio.Application.Services.Jwt
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<JwtTokenViewDto> ReadTokenAsync(string token)
+        public JwtTokenViewDto ReadToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
             var jwtSecurityToken = handler.ReadJwtToken(token);
 
-            return await Task.FromResult(
+            return
                 new JwtTokenViewDto
                 {
                     Id = Guid.Parse(jwtSecurityToken.Claims.FirstOrDefault(u => u.Type == "nameidentifier")?.Value),
                     Email = jwtSecurityToken.Claims.FirstOrDefault(u => u.Type == "email")?.Value
-                }
-            );
+                };
         }
 
         private SecurityTokenDescriptor GetTokenDescriptor(JwtDto jwtDto)
         {
-            var key = Encoding.ASCII.GetBytes(_configuration["JwtSecurity:SecurityKey"]);
+            var key = Encoding.UTF8.GetBytes(_configuration["JwtSecurity:SecurityKey"]);
+
+            var userCLaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, jwtDto.Id.ToString()),
+                new Claim(ClaimTypes.Email, jwtDto.Email)
+            };
+
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Email, jwtDto.Email.ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, jwtDto.Id.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddHours(double.Parse(_configuration["JwtSecurity:Expiration"])),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                Subject = new ClaimsIdentity(userCLaims),
+                Expires = DateTime.UtcNow.AddHours(int.Parse(_configuration["JwtSecurity:Expiration"])),
+                SigningCredentials = credentials
             };
 
             return tokenDescriptor;

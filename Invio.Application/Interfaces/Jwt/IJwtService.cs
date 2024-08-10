@@ -9,7 +9,7 @@ namespace Invio.Application.Interfaces.Jwt
 {
     public interface IJwtService
     {
-        Task<string> GenerateToken(JwtDto jwtDto);
-        Task<JwtTokenViewDto> ReadTokenAsync(string token);
+        string GenerateToken(JwtDto jwtDto);
+        JwtTokenViewDto ReadToken(string token);
     }
 }
