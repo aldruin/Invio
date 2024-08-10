@@ -31,13 +31,13 @@ namespace Invio.Application.Services.Jwt
             {
                 return new UserResponse
                 {
-                    ErrorMessage = "Email de usuário inválido."
+                    ErrorMessage = "Email ou senha inválidos."
                 };
             }
 
             if (user.EmailConfirmed == false) return new UserResponse
             {
-                ErrorMessage = "E-mail de usuário não confirmado."
+                ErrorMessage = "Por favor confirme seu email."
             };
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
@@ -45,7 +45,7 @@ namespace Invio.Application.Services.Jwt
             {
                 return new UserResponse
                 {
-                    ErrorMessage = "Senha inválida."
+                    ErrorMessage = "Email ou senha inválidos."
                 };
             }
 
