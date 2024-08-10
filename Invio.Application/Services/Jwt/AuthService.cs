@@ -35,10 +35,10 @@ namespace Invio.Application.Services.Jwt
                 };
             }
 
-            if (user.EmailConfirmed == false) return new UserResponse
-            {
-                ErrorMessage = "Por favor confirme seu email."
-            };
+            //if (user.EmailConfirmed == false) return new UserResponse
+            //{
+            //    ErrorMessage = "Por favor confirme seu email."
+            //};
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (!result.Succeeded) 

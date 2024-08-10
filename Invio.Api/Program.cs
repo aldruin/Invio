@@ -23,10 +23,10 @@ builder.Services.AddIdentityCore<Usuario>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
 
-    options.SignIn.RequireConfirmedEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
 })
-    .AddRoles<IdentityRole>()
-    .AddRoleManager<RoleManager<IdentityRole>>()
+    .AddRoles<IdentityRole<Guid>>()
+    .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
     .AddEntityFrameworkStores<InvioDbContext>()
     .AddSignInManager<SignInManager<Usuario>>()
     .AddUserManager<UserManager<Usuario>>()
