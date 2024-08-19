@@ -29,24 +29,13 @@ namespace Invio.Application.Services.Jwt
             var user = await _usuarioManager.FindByEmailAsync(request.Email);
             if (user == null)
             {
-                return new UserResponse
-                {
-                    ErrorMessage = "Email ou senha inválidos."
-                };
+                return null;
             }
-
-            //if (user.EmailConfirmed == false) return new UserResponse
-            //{
-            //    ErrorMessage = "Por favor confirme seu email."
-            //};
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
             if (!result.Succeeded) 
             {
-                return new UserResponse
-                {
-                    ErrorMessage = "Email ou senha inválidos."
-                };
+                return null;
             }
 
             var jwtToken = _jwtService.GenerateToken(new JwtDto(user.Id, user.Email));
