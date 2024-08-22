@@ -33,17 +33,19 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     this.errorMessages=[];
 
-      if(this.loginForm.valid){
-        this.accountService.login(this.loginForm.value).subscribe({
-          next:(response: any)=>{
-            console.log(response);
-          },
-          error:error=>{
-            if(error.error){
-              this.errorMessages=error.error.map((err:{message: string})=>err.message);
-            }
+    if(this.loginForm.valid){
+      this.accountService.login(this.loginForm.value).subscribe({
+        next:(response: any)=>{
+          console.log(response);
+        },
+        error:error=>{
+          if(error.error){
+            this.errorMessages = [error.error.errorMessage];
+          } else {
+            this.errorMessages.push("Ocorreu um erro. Por favor, tente novamente.");
           }
-        })
+        }
+      })
     }
   }
 }
