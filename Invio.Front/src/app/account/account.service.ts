@@ -3,19 +3,35 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Register } from '../shared/models/register';
 import { Login } from '../shared/models/login';
+import { User } from '../shared/models/user';
+import { map, ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
+  private userSource = new ReplaySubject< User | null>(1);
+  user$ = this.userSource.asObservable();
 
   constructor(private http: HttpClient) { }
 
   login(model:Login){
-    return this.http.post(`${environment.appUrl}/api/Autenticacao/Login`,model);
+    return this.http.post<User>(`${environment.appUrl}/api/Autenticacao/Login`,model).pipe(
+      map((user: User) => {
+        if (user) {
+          this.setUser(user);
+        }
+      })
+    );
   }
 
   register(model: Register){
     return this.http.post(`${environment.appUrl}/api/Usuario/Criar`, model);
+  }
+
+  private setUser(user: User) {
+    localStorage.setItem(environment.userKey, JSON.stringify(user));
+    this.userSource.next(user);
+
   }
 }

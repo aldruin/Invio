@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid){
       this.accountService.login(this.loginForm.value).subscribe({
         next:(response: any)=>{
-          console.log(response);
         },
         error:error=>{
           if(error.error){
