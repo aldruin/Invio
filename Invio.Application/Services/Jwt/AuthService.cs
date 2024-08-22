@@ -38,12 +38,13 @@ namespace Invio.Application.Services.Jwt
                 return null;
             }
 
-            var jwtToken = _jwtService.GenerateToken(new JwtDto(user.Id, user.Email));
+            var jwtToken = _jwtService.GenerateToken(new JwtDto(user.Id, user.Email, user.Nome));
 
             return new UserResponse
             {
                 Id = user.Id,
                 Email = user.Email,
+                Nome = user.Nome,
                 JwtToken = jwtToken,
             };
         }

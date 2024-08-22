@@ -51,7 +51,8 @@ namespace Invio.Application.Services.Jwt
             var userCLaims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, jwtDto.Id.ToString()),
-                new Claim(ClaimTypes.Email, jwtDto.Email)
+                new Claim(ClaimTypes.Email, jwtDto.Email),
+                new Claim(ClaimTypes.Name, jwtDto.Nome)
             };
 
             var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature);
