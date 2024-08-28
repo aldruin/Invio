@@ -10,10 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent{
   isLoggedIn = false;
+  isLoading = false;
 
   constructor (private router: Router, public accountService: AccountService) {}
 
   navigateToLogin() {
     this.router.navigate(['/account/login']);
   }
+
+  onLogin() {
+    this.isLoading = true;
+
+    setTimeout(() => {
+      this.router.navigate(['/account/login']);
+      this.isLoading = false;
+    }, 1000);
+  }
+
+
 }
