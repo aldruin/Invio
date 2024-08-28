@@ -24,11 +24,11 @@ export class AccountService {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', 'Bearer ' + jwt);
 
-    return this.http.get<User>(`${environment.appUrl}/api/account/refresh-user-token`)
+    return this.http.get<User>(`${environment.appUrl}/api/Autenticacao/refresh-user-token`)
   }
 
   login(model:Login){
-    return this.http.post<User>(`${environment.appUrl}/api/Autenticacao/Login`,model).pipe(
+    return this.http.post<User>(`${environment.appUrl}/api/autenticacao/login`,model).pipe(
       map((user: User) => {
         if (user) {
           this.setUser(user);
