@@ -2,9 +2,12 @@
 using Invio.Application.Interfaces;
 using Invio.Application.Interfaces.Jwt;
 using Invio.Application.Services;
+using Invio.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Invio.Api.Controllers
 {
@@ -36,5 +39,28 @@ namespace Invio.Api.Controllers
                 return BadRequest(new { ErrorMessage = ex.Message });
             }
         }
+
+        [Authorize]
+        [HttpGet("refresh-user-token")]
+        public async Task<IActionResult> RefreshUserToken()
+        {
+            try
+            {
+                var userResponse = await _authService.RefreshUserTokenAsync(User);
+
+                if (userResponse == null)
+                {
+                    return Unauthorized(new { ErrorMessage = "Usuário expirado" });
+                }
+
+                return Ok(userResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ErrorMessage = ex.Message });
+            }
+
+        }
+
     }
 }

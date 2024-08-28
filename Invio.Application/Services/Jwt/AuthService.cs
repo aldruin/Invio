@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,5 +49,34 @@ namespace Invio.Application.Services.Jwt
                 JwtToken = jwtToken,
             };
         }
+
+        public async Task<UserResponse> RefreshUserTokenAsync(ClaimsPrincipal userPrincipal)
+        {
+            var userId = userPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return null;
+            }
+
+            var user = await _usuarioManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var jwtToken = _jwtService.GenerateToken(new JwtDto(user.Id, user.Email, user.Nome));
+
+            return new UserResponse
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Nome = user.Nome,
+                JwtToken = jwtToken,
+            };
+        }
+
+
     }
 }
