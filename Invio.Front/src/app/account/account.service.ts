@@ -14,7 +14,10 @@ export class AccountService {
   private userSource = new ReplaySubject< User | null>(1);
   user$ = this.userSource.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {
+    const savedToken = localStorage.getItem('jwtToken');
+    this.refreshUser(savedToken).subscribe();
+  }
 
   refreshUser(jwtToken: string | null){
     if( jwtToken === null) {

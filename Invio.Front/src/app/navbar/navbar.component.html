@@ -1,9 +1,10 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
       <!-- <a class="nav-brand">
         <img src="/src/assets/images/eye.png" class="me-3" alt="Logo">
       </a> -->
+      <a class="navbar-brand" href="#">Invio</a>
       <button class="navbar-toggler"type="button">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -12,9 +13,9 @@
           <li class="nav-item">
             <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Inicio</a>
           </li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" routerLink="/equipes" routerLinkActive="active">Equipes</a>
-          </li> -->
+          </li>
         </ul>
 
         <ul class="navbar-nav" *ngIf = "(accountService.user$ | async) === null">
