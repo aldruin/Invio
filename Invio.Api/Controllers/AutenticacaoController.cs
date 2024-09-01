@@ -41,12 +41,12 @@ namespace Invio.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("refresh-user-token")]
-        public async Task<IActionResult> RefreshUserToken()
+        [HttpGet("refresh-user")]
+        public async Task<IActionResult> RefreshUser()
         {
             try
             {
-                var userResponse = await _authService.RefreshUserTokenAsync(User);
+                var userResponse = await _authService.RefreshUserAsync(User);
 
                 if (userResponse == null)
                 {

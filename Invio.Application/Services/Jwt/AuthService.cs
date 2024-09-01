@@ -50,7 +50,7 @@ namespace Invio.Application.Services.Jwt
             };
         }
 
-        public async Task<UserResponse> RefreshUserTokenAsync(ClaimsPrincipal userPrincipal)
+        public async Task<UserResponse> RefreshUserAsync(ClaimsPrincipal userPrincipal)
         {
             var userId = userPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -66,14 +66,11 @@ namespace Invio.Application.Services.Jwt
                 return null;
             }
 
-            var jwtToken = _jwtService.GenerateToken(new JwtDto(user.Id, user.Email, user.Nome));
-
             return new UserResponse
             {
                 Id = user.Id,
                 Email = user.Email,
-                Nome = user.Nome,
-                JwtToken = jwtToken,
+                Nome = user.Nome
             };
         }
 

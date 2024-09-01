@@ -11,6 +11,6 @@ namespace Invio.Application.Interfaces.Jwt
     public interface IAuthService
     {
         Task<UserResponse> LoginAsync(LoginRequest request);
-        Task<UserResponse> RefreshUserTokenAsync(ClaimsPrincipal user);
+        Task<UserResponse> RefreshUserAsync(ClaimsPrincipal user);
     }
 }
