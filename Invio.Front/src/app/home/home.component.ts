@@ -19,13 +19,7 @@ export class HomeComponent{
   }
 
   onLogin() {
-    this.isLoading = true;
-
-    setTimeout(() => {
-      this.router.navigate(['/account/login']);
-      this.isLoading = false;
-    }, 1000);
+    this.router.navigate(['/account/login']);
+    this.isLoading = false;
   }
-
-
 }

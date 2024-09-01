@@ -16,10 +16,16 @@ export class AppComponent implements OnInit{
 
   private refreshUser(){
     const jwt = this.accountService.getJWT();
-    if(jwt) {
-
+    if (jwt) {
+      this.accountService.refreshUser(jwt).subscribe({
+        next: _ => {},
+        error: _ =>{
+          this.accountService.logout();
+        }
+      })
+    } else {
+      this.accountService.refreshUser(null).subscribe();
     }
   }
 
-  title = 'Invio.Front';
 }

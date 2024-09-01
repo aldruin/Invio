@@ -2,5 +2,5 @@ export interface User {
   id: string;
   nome: string;
   email: string;
-  jwt: string;
+  jwtToken: string;
 }

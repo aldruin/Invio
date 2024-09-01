@@ -17,19 +17,19 @@
           </li> -->
         </ul>
 
-        <!-- <ul class="navbar-nav" *ngIf = "(accountService.user$ | async) === null">
+        <ul class="navbar-nav" *ngIf = "(accountService.user$ | async) === null">
           <li class="nav-item">
             <a class="btn btn-secondary" routerLink="/account/login" routerLinkActive="active">
-              Login
+              Iniciar sessão
             </a>
           </li>
-        </ul> -->
+        </ul>
 
         <div class="d-flex align-items-center" *ngIf = "(accountService.user$ | async) as user">
           <a class="text-white" style="text-decoration: none; cursor: pointer;">
-            OLÁ <span class="h3 text-warning">{{user.nome | titlecase}}</span>
+            OLÁ <span class="h3 text-info">{{user.nome | titlecase}}</span>
           </a>
-          <a class="btn btn-secondary ms-2" (click)="logout()">Logout</a>
+          <a class="btn btn-secondary ms-2" (click)="logout()">Sair</a>
 
         </div>
       </div>

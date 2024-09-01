@@ -5,6 +5,7 @@ import { Register } from '../shared/models/register';
 import { Login } from '../shared/models/login';
 import { User } from '../shared/models/user';
 import { map, of, ReplaySubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AccountService {
   private userSource = new ReplaySubject< User | null>(1);
   user$ = this.userSource.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   refreshUser(jwt: string | null){
     if( jwt === null) {
@@ -24,7 +25,19 @@ export class AccountService {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', 'Bearer ' + jwt);
 
-    return this.http.get<User>(`${environment.appUrl}/api/Autenticacao/refresh-user-token`)
+    return this.http.get<User>(`${environment.appUrl}/api/Autenticacao/refresh-user-token`, {headers}).pipe(
+      map((user: User) => {
+        if (user) {
+          this.setUser(user);
+        }
+      })
+    )
+  }
+
+  logout(){
+    localStorage.removeItem(environment.userKey);
+    this.userSource.next(null);
+    this.router.navigateByUrl('/');
   }
 
   login(model:Login){
@@ -45,7 +58,7 @@ export class AccountService {
     const key = localStorage.getItem(environment.userKey);
     if (key){
       const user: User = JSON.parse(key);
-      return user.jwt;
+      return user.jwtToken;
     } else {
       return null;
     }
