@@ -16,18 +16,19 @@ export class AccountService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  refreshUser(jwt: string | null){
-    if( jwt === null) {
+  refreshUser(jwtToken: string | null){
+    if( jwtToken === null) {
       this.userSource.next(null);
       return of(undefined);
     }
 
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + jwt);
+    headers = headers.set('Authorization', 'Bearer ' + jwtToken);
 
     return this.http.get<User>(`${environment.appUrl}/api/Autenticacao/refresh-user`, {headers}).pipe(
       map((user: User) => {
         if (user) {
+          user.jwtToken = jwtToken;
           this.setUser(user);
         }
       })
