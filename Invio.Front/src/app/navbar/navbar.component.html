@@ -5,20 +5,21 @@
         <img src="/src/assets/images/eye.png" class="me-3" alt="Logo">
       </a> -->
       <a class="navbar-brand" href="#">Invio</a>
-      <button class="navbar-toggler"type="button">
+      <button class="navbar-toggler" type="button">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Inicio</a>
+            <a class="nav-link" routerLink="/" routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact:true}">Inicio</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/equipes" routerLinkActive="active">Equipes</a>
           </li>
         </ul>
 
-        <ul class="navbar-nav" *ngIf = "(accountService.user$ | async) === null">
+        <ul class="navbar-nav" *ngIf="(accountService.user$ | async) === null">
           <li class="nav-item">
             <a class="btn btn-secondary" routerLink="/account/login" routerLinkActive="active">
               Iniciar sessão
@@ -26,9 +27,9 @@
           </li>
         </ul>
 
-        <div class="d-flex align-items-center" *ngIf = "(accountService.user$ | async) as user">
+        <div class="d-flex align-items-center" *ngIf="(accountService.user$ | async) as user">
           <a class="text-white" style="text-decoration: none; cursor: pointer;">
-            OLÁ <span class="h3 text-info">{{user.nome | titlecase}}</span>
+            OLÁ <span class="h3 text-primary">{{user.nome | titlecase}}</span>
           </a>
           <a class="btn btn-secondary ms-2" (click)="logout()">Sair</a>
 
