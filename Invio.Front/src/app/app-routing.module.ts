@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './shared/components/errors/not-found/not-found.component';
 import { EquipesComponent } from './equipes/equipes.component';
-import { AuthorizationGuard } from './equipes/guards/authorization.guard';
+import { AuthorizationGuard } from './shared/guards/authorization.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
