@@ -11,16 +11,16 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AccountService {
-  private userSource = new ReplaySubject< User | null>(1);
+  private userSource = new ReplaySubject<User | null>(1);
   user$ = this.userSource.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {
-    const savedToken = localStorage.getItem('jwtToken');
-    this.refreshUser(savedToken).subscribe();
+    // const savedToken = localStorage.getItem('jwtToken');
+    // this.refreshUser(savedToken).subscribe();
   }
 
-  refreshUser(jwtToken: string | null){
-    if( jwtToken === null) {
+  refreshUser(jwtToken: string | null) {
+    if (jwtToken === null) {
       this.userSource.next(null);
       return of(undefined);
     }
@@ -28,7 +28,7 @@ export class AccountService {
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', 'Bearer ' + jwtToken);
 
-    return this.http.get<User>(`${environment.appUrl}/api/Autenticacao/refresh-user`, {headers}).pipe(
+    return this.http.get<User>(`${environment.appUrl}/api/Autenticacao/refresh-user`, { headers }).pipe(
       map((user: User) => {
         if (user) {
           user.jwtToken = jwtToken;
@@ -38,14 +38,14 @@ export class AccountService {
     )
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem(environment.userKey);
     this.userSource.next(null);
     this.router.navigateByUrl('/');
   }
 
-  login(model:Login){
-    return this.http.post<User>(`${environment.appUrl}/api/autenticacao/login`,model).pipe(
+  login(model: Login) {
+    return this.http.post<User>(`${environment.appUrl}/api/autenticacao/login`, model).pipe(
       map((user: User) => {
         if (user) {
           this.setUser(user);
@@ -54,13 +54,13 @@ export class AccountService {
     );
   }
 
-  register(model: Register){
+  register(model: Register) {
     return this.http.post(`${environment.appUrl}/api/Usuario/Criar`, model);
   }
 
-  getJWT(){
+  getJWT() {
     const key = localStorage.getItem(environment.userKey);
-    if (key){
+    if (key) {
       const user: User = JSON.parse(key);
       return user.jwtToken;
     } else {
