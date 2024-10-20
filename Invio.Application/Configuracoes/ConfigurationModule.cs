@@ -27,6 +27,7 @@ namespace Invio.Application.Configuracoes
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IEquipeService, EquipeService>();
             services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddHttpClient();
 
