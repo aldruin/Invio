@@ -1,0 +1,52 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between mb-3">
+    <button class="btn btn-primary" (click)="irParaInicio()">Voltar</button>
+    <button class="btn btn-success" (click)="criarEquipe()">Criar Equipe</button>
+  </div>
+
+  <h6 class="mb-3">{{ message }}</h6>
+
+  <ul *ngIf="equipes.length > 0; else noEquipes" class="list-group">
+    <li *ngFor="let equipe of equipes" class="list-group-item d-flex justify-content-between align-items-center">
+      {{ equipe.nome }}
+      <div>
+        <button class="btn btn-info btn-sm" (click)="irParaDetalhes(equipe.ID)">Acessar</button>
+        <button class="btn btn-warning btn-sm" (click)="editarEquipe(equipe.ID)">Editar</button>
+      </div>
+    </li>
+  </ul>
+
+  <ng-template #noEquipes>
+    <p class="text-danger">Nenhuma equipe encontrada.</p>
+  </ng-template>
+</div>
+
+
+<!-- <div>
+  <button (click)="irParaInicio()"> Voltar</button>
+  <button (click)="criarEquipe()"> Criar Equipe</button>
+
+  <h6>Teste</h6>
+
+  <ul *ngIf="equipes.length > 0; else noEquipes">
+    <li *ngFor="let equipe of equipes">
+      {{equipe.nome}} (ID: {{equipe.ID}})
+      <button (click)="irParaDetalhes">Acessar</button>
+      <button (click)="editarEquipe">Editar</button>
+
+    </li>
+  </ul>
+
+  <ng-template #noEquipes>
+    <p>Nenhuma equipe encontrada.</p>
+  </ng-template>
+</div> -->
+
+<!-- <div>
+  <h6>{{ message }}</h6>
+  <ul>
+    <li *ngFor="let equipe of equipes">
+      {{ equipe.nome }} (ID: {{ equipe.id }})
+    </li>
+  </ul>
+</div> -->

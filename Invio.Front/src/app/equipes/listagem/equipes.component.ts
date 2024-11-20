@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { EquipesService } from './equipes.service';
+
+import { Router } from '@angular/router';
+import { EquipesService } from '../equipes.service';
 
 @Component({
   selector: 'app-equipes',
@@ -11,7 +13,7 @@ export class EquipesComponent implements OnInit {
   equipes: any[] = [];
 
 
-  constructor(private equipeService: EquipesService) { }
+  constructor(private equipeService: EquipesService, private router: Router) { }
 
   ngOnInit(): void {
     this.equipeService.getEquipes().subscribe({
@@ -25,5 +27,21 @@ export class EquipesComponent implements OnInit {
       },
       error: error => console.log(error)
     });
+  }
+
+  irParaInicio(): void {
+    this.router.navigate(['']);
+  }
+
+  criarEquipe(): void {
+    this.router.navigate(['equipes/criar']);
+  }
+
+  irParaDetalhes(id: number): void {
+    this.router.navigate(['equipes', id]);
+  }
+
+  editarEquipe(id: number): void {
+    this.router.navigate(['equipes/editar', id]);
   }
 }
